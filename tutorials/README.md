@@ -1,6 +1,7 @@
-# Tutorial
+# Tutorials
 
-- Linear regression
-- Linear regression using TensorFlow
-- CNN for medical image classification
-- CNN for medical image segmentation
+- Linear regression - curve fitting (Python)
+- Linear regression - cross validation (Python)
+- Linear regression - curve fitting (TensorFlow)
+- CNN - medical image classification (TensorFlow)
+- CNN - medical image segmentation (TensorFlow)
