@@ -1,4 +1,7 @@
 import tensorflow as tf
+import utilities as util
+import numpy as np
+import random
 
 
 # --- First define placeholders with fixed sizes
@@ -8,8 +11,6 @@ size_minibatch = 4  # number of images as one input minibatch
 ph_image = tf.placeholder(tf.float32, [size_minibatch]+size_data+[1])
 ph_label = tf.placeholder(tf.float32, [size_minibatch]+size_data+[1])
 
-
-import utilities as util
 
 # --- usually, there is a data pre-processing (augmentation) layer
 size_input = [16, 64, 64]  # use smaller images so this can be reasonably tested, e.g. on a CPU
@@ -105,11 +106,9 @@ n = 50  # 50 training image-label pairs
 num_minibatch = int(n/size_minibatch)  # how many minibatches in each epoch
 indices_train = [i for i in range(n)]
 # data reader
-path_to_data = './data'
+path_to_data = './promise12'
 DataFeeder = util.DataReader(path_to_data)
 
-
-import random
 
 # start the optimisation
 for step in range(total_iter):
@@ -138,12 +137,12 @@ for step in range(total_iter):
 
     # --- simple tests during training ---
     if (step % 500) == 0:
-        num_test = int(30/size_minibatch)  # ignore the last few
-        print('Individual test-Dice:')
-        for test_idx in range(num_test):
-            indices_test = list(range(test_idx*size_minibatch, (test_idx+1)*size_minibatch))
-            testFeed = {ph_image: DataFeeder.load_images_test(indices_test)}
-            layer1d_test = sess.run(layer1d, feed_dict=testFeed)
-            # save the segmentation
+        indices_test = [random.randrange(30) for i in range(size_minibatch)]  # select size_minibatch test data
+        testFeed = {ph_image: DataFeeder.load_images_test(indices_test)}
+        layer1d_test = sess.run(layer1d, feed_dict=testFeed)
+        # save the segmentation
+        for idx in range(size_minibatch):
+            np.save("./label_test%02d_step%06d.npy" % (indices_test[idx], step), layer1d_test[idx, ...])
+        print('Test results saved.')
 
 sess.close()
