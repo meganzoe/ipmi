@@ -19,16 +19,27 @@ folder_gzip = os.path.join(os.getenv("HOME"), 'Scratch/data/promise12/gzip')
 # images_train = [sitk.ReadImage(os.path.join(folder_train, "Case%02d.mhd" % idx)) for idx in range(50)]
 
 # N.B - resample the x-y by half for demo purpose
+crop_percent = 0.1  # one-side
 for idx in range(50):
     image_train = sitk.ReadImage(os.path.join(folder_train, "Case%02d.mhd" % idx))
-    np.save(os.path.join(folder_npy, "image_train%02d.npy" % idx), sitk.GetArrayFromImage(image_train)[:, ::2, ::2])  # voxdims = image_train.GetSpacing()  # discard the voxel size information for demo purpose
     label_train = sitk.ReadImage(os.path.join(folder_train, "Case%02d_segmentation.mhd" % idx))
-    np.save(os.path.join(folder_npy, "label_train%02d.npy" % idx), sitk.GetArrayFromImage(label_train)[:, ::2, ::2])  # data = sitk.GetArrayFromImage(label_train) == 1
+    # voxdims = image_train.GetSpacing()  # discard the voxel size information for demo purpose
+
+    # cropping
+    crop_1side = int(image_train.GetSize()[1] * crop_percent)
+
+    # resample
+    np.save(os.path.join(folder_npy, "image_train%02d.npy" % idx),
+            sitk.GetArrayFromImage(image_train)[:, crop_1side:-crop_1side:2, crop_1side:-crop_1side:2])
+    np.save(os.path.join(folder_npy, "label_train%02d.npy" % idx),
+            sitk.GetArrayFromImage(label_train)[:, crop_1side:-crop_1side:2, crop_1side:-crop_1side:2])
 
 # test data
 for idx in range(30):
     image_test = sitk.ReadImage(os.path.join(folder_test, "Case%02d.mhd" % idx))
-    np.save(os.path.join(folder_npy, "image_test%02d.npy" % idx), sitk.GetArrayFromImage(image_test)[:, ::2, ::2])
+    crop_1side = int(image_test.GetSize()[1] * crop_percent)
+    np.save(os.path.join(folder_npy, "image_test%02d.npy" % idx),
+            sitk.GetArrayFromImage(image_test)[:, crop_1side:-crop_1side:2, crop_1side:-crop_1side:2])
 
 
 # - compress all files

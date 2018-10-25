@@ -4,20 +4,32 @@ import zipfile
 import os
 
 
-def check_and_unzip(path_to_zip_file=None, path_to_output_folder=None):
+def simple_unzip(path_to_zip_file=None, path_to_output_folder=None):
 
 	# inputs
 	if path_to_zip_file is None:
-		path_to_zip_file = "~/Downloads/promise12-data.zip"
+		path_to_zip_file = "~/Downloads/data.zip"
 	if path_to_output_folder is None:
 		path_to_output_folder = "./data"
 
 	path_to_zip_file = os.path.abspath(os.path.expanduser(path_to_zip_file))
 	path_to_output_folder = os.path.abspath(os.path.expanduser(path_to_output_folder))
 
+	flag_pass = check_only(path_to_output_folder)
+	if not flag_pass:
+		zip_f = zipfile.ZipFile(path_to_zip_file, 'r')
+		zip_f.extractall(path_to_output_folder)
+		zip_f.close()
+		print('Data unzipped successfully at: %s' % path_to_output_folder)
+
+	return path_to_output_folder
+
+
+def check_only(path_to_output_folder):
 	# check the output folder
 	if not os.path.isdir(path_to_output_folder):
 		os.mkdir(path_to_output_folder)
+		flag_pass = False
 	else:  # do thorough check files
 		flag_train = True
 		for idx in range(50):
@@ -29,9 +41,25 @@ def check_and_unzip(path_to_zip_file=None, path_to_output_folder=None):
 			flag_test &= os.path.isfile(os.path.join(path_to_output_folder, "image_test%02d.npy" % idx))
 		# if not flag_test: print('WARNING: Not all test data can be found.')
 
-		if flag_train & flag_test:
+		flag_pass = flag_train & flag_test
+		if flag_pass:
 			print('Data checked at: %s' % path_to_output_folder)
-			return path_to_output_folder
+
+	return flag_pass
+
+
+def check_and_unzip_gz(path_to_zip_file=None, path_to_output_folder=None):
+
+	# inputs
+	if path_to_zip_file is None:
+		path_to_zip_file = "~/Downloads/promise12-data.zip"
+	if path_to_output_folder is None:
+		path_to_output_folder = "./data"
+
+	path_to_zip_file = os.path.abspath(os.path.expanduser(path_to_zip_file))
+	path_to_output_folder = os.path.abspath(os.path.expanduser(path_to_output_folder))
+
+	check_only(path_to_output_folder)
 
 	# unzip the file
 	path_to_temp_folder = os.path.join(path_to_output_folder, '.~temp_data')
@@ -61,4 +89,4 @@ def check_and_unzip(path_to_zip_file=None, path_to_output_folder=None):
 
 
 if __name__ == '__main__':
-	check_and_unzip()
+	simple_unzip()
