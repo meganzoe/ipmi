@@ -1,8 +1,8 @@
 # Tutorials
 
-- Linear regression - curve fitting (Python) <[Notebook][part1_notebook]> <[Colab][part1_colab]>
-- Linear regression - cross validation (Python) <[Notebook][part2_notebook]> <[Colab][part2_colab]>
-- Linear regression - curve fitting (TensorFlow) <[Notebook][part3_notebook]> <[Colab][part2_colab]>
+- Linear Regression - curve fitting (Python) <[Notebook][part1_notebook]> <[Colab][part1_colab]>
+- Linear Regression - cross validation (Python) <[Notebook][part2_notebook]> <[Colab][part2_colab]>
+- Linear Regression - curve fitting (TensorFlow) <[Notebook][part3_notebook]> <[Colab][part2_colab]>
 - Convolutional Neural Network - image segmentation (TensorFlow) <[Notebook][part4_notebook]> <[Colab][part3_colab]>
 
 All the tutorials run on Google Colab. Running on Jupyter notebook with or without [Anaconda][tf_conda] requires TensorFlow to be [installed locally][tf_install]. Performance varies.
