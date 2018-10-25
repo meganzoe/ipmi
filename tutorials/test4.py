@@ -165,3 +165,21 @@ for step in range(total_iter):
         print('Test results saved.')
 
 sess.close()
+
+
+# read the saved data
+import matplotlib.pyplot as plt
+
+
+idx_case = 18
+step = 1000
+idx_slice = 6
+
+image = np.load(os.path.join(path_to_data, "image_test%02d.npy" % idx_case))[::2, ::2, ::2]
+label = np.load("label_test%02d_step%06d.npy" % (idx_case, step))[..., 0]
+# plot the pair
+
+plt.figure()
+plt.imshow(image[idx_slice,:,:], cmap='gray')
+plt.figure()
+plt.imshow(label[idx_slice,:,:], cmap='gray')
