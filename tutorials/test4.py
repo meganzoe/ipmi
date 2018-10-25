@@ -1,11 +1,32 @@
 import tensorflow as tf
-import utilities as util
 import numpy as np
 import random
+import os
+
+size_data = [32, 128, 128]
+path_to_data = './promise12'
+
+# a simple npy image reading class
+class DataReader:
+
+    def __init__(self, folder_name):
+        self.folder_name = folder_name
+
+    def load_images_train(self, indices_mb):
+        return self.load_npy_files(["image_train%02d.npy" % idx for idx in indices_mb])
+
+    def load_images_test(self, indices_mb):
+        return self.load_npy_files(["image_test%02d.npy" % idx for idx in indices_mb])
+
+    def load_labels_train(self, indices_mb):
+        return self.load_npy_files(["label_train%02d.npy" % idx for idx in indices_mb])
+
+    def load_npy_files(self, file_names):
+        images = [np.float32(np.load(os.path.join(self.folder_name, fn))) for fn in file_names]
+        return np.expand_dims(np.stack(images, axis=0), axis=4)
 
 
 # --- First define placeholders with fixed sizes
-size_data = [32, 128, 128]
 size_minibatch = 4  # number of images as one input minibatch
 # only the gray-scale intensity values as one-channel feature, hence [1]:
 ph_image = tf.placeholder(tf.float32, [size_minibatch]+size_data+[1])
@@ -13,9 +34,9 @@ ph_label = tf.placeholder(tf.float32, [size_minibatch]+size_data+[1])
 
 
 # --- usually, there is a data pre-processing (augmentation) layer
-size_input = [16, 64, 64]  # use smaller images so this can be reasonably tested, e.g. on a CPU
-input_image = util.resize_volume(ph_image, size_input)
-input_label = util.resize_volume(ph_label, size_input)
+# halve image size so this can be reasonably tested, e.g. on a CPU
+input_image = ph_image[:, ::2, ::2, ::2, :]
+input_label = ph_label[:, ::2, ::2, ::2, :]
 
 # --- add the first block of layers (N.B. "layer" is not used consistently)
 k_conv = [3, 3, 3]  # convolution kernel size
@@ -85,8 +106,7 @@ layer2dc = tf.nn.relu(tf.contrib.layers.batch_norm(tf.nn.conv3d(layer2d+layer2c,
 W1d = tf.get_variable("W_out", shape=k_conv+[nc2, 1], initializer=tf.contrib.layers.xavier_initializer())
 layer1d = tf.sigmoid(tf.contrib.layers.batch_norm(tf.nn.conv3d(layer2dc, W1d, strides_one, "SAME")))
 
-# check if output size is expected
-print(layer1d)
+# check if output size is expected: print(layer1d)
 
 
 # loss based on Dice, between predicted segmentation layer_out and ground-truth label
@@ -106,8 +126,7 @@ n = 50  # 50 training image-label pairs
 num_minibatch = int(n/size_minibatch)  # how many minibatches in each epoch
 indices_train = [i for i in range(n)]
 # data reader
-path_to_data = './promise12'
-DataFeeder = util.DataReader(path_to_data)
+DataFeeder = DataReader(path_to_data)
 
 
 # start the optimisation
