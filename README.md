@@ -2,7 +2,7 @@
 
 Course Materials for Information Processing in Medical Imaging (MPHY0025) - [Moodle Page][moodle_page]
 
-- This repository contains demo data, tutorial and coursework for Part II of the course: Machine Learning and Medical Image Segmentation.
+- This repository contains tutorials and coursework for Part II of the course: Machine Learning for Medical Image Segmentation.
 
 Go to [Tutorials][tutorials_link]
 
