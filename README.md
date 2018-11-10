@@ -4,7 +4,7 @@ Course Materials for Information Processing in Medical Imaging (MPHY0025) - [Moo
 
 - This repository contains tutorials and coursework for Part II of the course: Machine Learning for Medical Image Segmentation.
 
-Go to [Tutorials][tutorials_link]
+Go to [Tutorials][tutorials_link].
 
 yipeng.hu@ucl.ac.uk  
 Department of Medical Physics and Biomedical Engineering  

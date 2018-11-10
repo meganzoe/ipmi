@@ -1,9 +1,9 @@
 # Tutorials
 
-- Linear Regression - curve fitting (Python) <[Colab][part1_colab]>
-- Linear Regression - cross validation (Python) <[Colab][part2_colab]>
-- Linear Regression - curve fitting (TensorFlow) <[Colab][part3_colab]>
-- Convolutional Neural Network - image segmentation (TensorFlow) <[Colab][part4_colab]>
+- Linear Regression - Curve Fitting (Python) <[Colab][part1_colab]>
+- Linear Regression - Cross Validation (Python) <[Colab][part2_colab]>
+- Linear Regression - Curve Fitting (TensorFlow) <[Colab][part3_colab]>
+- Convolutional Neural Network - Medical Image Segmentation (TensorFlow) <[Colab][part4_colab]>
 
 All the tutorials run directly on Google Colab (by clicking the links above). Get started with [Runtime] -> [Run all]. Alternatively, download the ipynb files, then upload them to [Colab](https://colab.research.google.com). 
 
