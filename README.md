@@ -6,8 +6,8 @@ Course Materials for Information Processing in Medical Imaging (MPHY0025) - [Moo
 
 Go to [Tutorials][tutorials_link]
 
-yipeng.hu@ucl.ac.uk
-Department of Medical Physics and Biomedical Engineering
+yipeng.hu@ucl.ac.uk  
+Department of Medical Physics and Biomedical Engineering  
 University College London
 
 
